@@ -32,7 +32,7 @@ const DeviceItem = ({device}) => {
         >
           DETAILS
         </Button>
-        <Button sx={{pl: 3}} size="small">BUY <ShoppingCartIcon color={'primary'}/></Button>
+        <Button startIcon={<ShoppingCartIcon />} sx={{pl: 3}} size="small">BUY </Button>
       </CardActions>
     </Card>
   );

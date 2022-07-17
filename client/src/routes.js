@@ -1,7 +1,7 @@
 import Admin from "./page/Admin";
 import Basket from "./page/Basket";
 import {
-  ADMIN_ROUTE,
+  ADMIN_ROUTE, ADMIN_ROUTE_PRODUCT,
   BASKET_ROUTE,
   DEVICE_ROUTE,
   LOGIN_ROUTE,
@@ -11,6 +11,7 @@ import {
 import Shop from "./page/Shop";
 import Auth from "./page/Auth";
 import DevicePage from "./page/DevicePage";
+import AdminListProduct from "./components/AdminPunel/AdminListProduct";
 
 export const authRoutes = [
   {
@@ -21,6 +22,11 @@ export const authRoutes = [
     path: BASKET_ROUTE,
     Component: <Basket/>
   },
+  {
+    path: ADMIN_ROUTE_PRODUCT,
+    Component: <AdminListProduct/>
+  },
+
 ]
 export const publicRoutes = [
   {

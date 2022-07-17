@@ -18,7 +18,6 @@ const theme = createTheme();
 const Auth = () => {
   const location = useLocation()
   const isLogin = location.pathname === LOGIN_ROUTE
-  console.log(location);
 
   const handleSubmit = (event) => {
     event.preventDefault();
