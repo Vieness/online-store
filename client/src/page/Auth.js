@@ -1,32 +1,57 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import {
   Avatar,
-  Box, Button,
-  Checkbox, createTheme,
+  Box,
+  Button,
+  Checkbox,
+  createTheme,
   CssBaseline,
   FormControlLabel,
-  Grid, Link, Paper,
+  Grid,
+  Link,
+  Paper,
   TextField,
   ThemeProvider,
   Typography
 } from "@mui/material";
-import {LOGIN_ROUTE, REGISTRATION_ROUTE} from "../utils/constants";
-import {useLocation} from "react-router-dom";
+import {LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE} from "../utils/constants";
+import {useLocation, useNavigate} from "react-router-dom";
+import {login, registration} from "../http/userAPI";
+import {observer} from "mobx-react-lite";
+import {Context} from "../index";
 
 const theme = createTheme();
 
-const Auth = () => {
+const Auth = observer(() => {
+  const {user} = useContext(Context)
   const location = useLocation()
+  const history = useNavigate()
   const isLogin = location.pathname === LOGIN_ROUTE
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const click = async () => {
+    try {
+      let data
+      if (isLogin) {
+        data = await login(email, password)
+      } else {
+        data = await registration(email, password)
+      }
+      user.setUser(user)
+      user.setIsAuth(true)
+      history(SHOP_ROUTE)
+    } catch (e) {
+      alert(e.response.data.message)
+    }
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
   };
+
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{height: '100vh'}}>
@@ -62,6 +87,8 @@ const Auth = () => {
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1}}>
               <TextField
+                value={email}
+                onChange={e => setEmail(e.target.value)}
                 margin="normal"
                 required
                 fullWidth
@@ -72,7 +99,10 @@ const Auth = () => {
                 autoFocus
               />
               <TextField
+                value={password}
+                onChange={e => setPassword(e.target.value)}
                 margin="normal"
+                type='password'
                 required
                 fullWidth
                 name="password"
@@ -86,6 +116,7 @@ const Auth = () => {
                 label="Remember me"
               />
               <Button
+                onClick={click}
                 type="submit"
                 fullWidth
                 variant="contained"
@@ -116,6 +147,6 @@ const Auth = () => {
       </Grid>
     </ThemeProvider>
   );
-};
+});
 
 export default Auth;

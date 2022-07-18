@@ -6,10 +6,17 @@ import {NavLink} from "react-router-dom";
 import {ADMIN_ROUTE, LOGIN_ROUTE, SHOP_ROUTE} from "../utils/constants";
 import "./styles.scss";
 import {useNavigate} from "react-router-dom";
+import {observer} from "mobx-react-lite";
 
-const NavBar = () => {
+const NavBar = observer(() => {
   const {user} = useContext(Context)
   const navigate = useNavigate()
+
+  const logOut = () => {
+    user.setUser({})
+    user.setIsAuth(false)
+  }
+
   return (
     <Box sx={{flexGrow: 1}}>
       <AppBar position="static">
@@ -28,16 +35,17 @@ const NavBar = () => {
             </Typography>
             {user.isAuth
               ? <div>
-                <Button onClick={()=>navigate(LOGIN_ROUTE)} sx={{m: 1}} variant={'outlined'} color="inherit">LogOut</Button>
-                <Button onClick={()=>navigate(ADMIN_ROUTE)} variant={'outlined'} color="inherit">Admin Panel</Button>
+                <Button onClick={() => logOut()} sx={{m: 1}} variant={'outlined'}
+                        color="inherit">LogOut</Button>
+                <Button onClick={() => navigate(ADMIN_ROUTE)} variant={'outlined'} color="inherit">Admin Panel</Button>
               </div>
-              : <Button variant={'outlined'} color="inherit" onClick={() => user.setIsAuth(true)}>LogIn</Button>
+              : <Button variant={'outlined'} color="inherit" onClick={() => navigate(LOGIN_ROUTE)}>LogIn</Button>
             }
           </Toolbar>
         </Container>
       </AppBar>
     </Box>
   );
-};
+});
 
 export default NavBar;

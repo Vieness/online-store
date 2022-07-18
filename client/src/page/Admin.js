@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Container, Grid, ListItemText} from "@mui/material";
 import AdminListType from "../components/AdminPunel/AdminListType";
 import AdminListProduct from "../components/AdminPunel/AdminListProduct";
