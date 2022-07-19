@@ -15,7 +15,7 @@ const DeviceItem = ({device}) => {
         component="img"
         height="140"
         alt="green iguana"
-        src={device.img}
+        src={process.env.REACT_APP_API_URL + '/' + device.img}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
@@ -32,7 +32,7 @@ const DeviceItem = ({device}) => {
         >
           DETAILS
         </Button>
-        <Button startIcon={<ShoppingCartIcon />} sx={{pl: 3}} size="small">BUY </Button>
+        <Button startIcon={<ShoppingCartIcon/>} sx={{pl: 3}} size="small">BUY </Button>
       </CardActions>
     </Card>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Button,
   Card,
@@ -19,21 +19,16 @@ import {
   Typography
 } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import {useParams} from "react-router-dom";
+import {fetchOneDevices} from "../http/deviceAPI";
+import {observer} from "mobx-react-lite";
 
-const DevicePage = () => {
-  const device = {
-    id: 4,
-    name: 'iphone 10',
-    price: 10500,
-    rating: 3,
-    img: 'https://randomwordgenerator.com/img/picture-generator/53e9dc464853b10ff3d8992cc12c30771037dbf85254794e732872d69545_640.jpg'
-  }
-  const description = [
-    {id: 1, title: 'RAM', desc: '5 gb'},
-    {id: 2, title: 'Camera', desc: '12mp'},
-    {id: 3, title: 'CP', desc: 'i5'},
-    {id: 4, title: 'core', desc: '4'}
-  ]
+const DevicePage = observer(() => {
+  const [device, setDevice] = useState({info: []})
+  const {id} = useParams()
+  useEffect(() => {
+    fetchOneDevices(id).then(data => setDevice(data))
+  }, [])
   const StyledTableRow = styled(TableRow)(({theme}) => ({
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.action.hover,
@@ -62,7 +57,7 @@ const DevicePage = () => {
               component="img"
               height="340"
               alt="green iguana"
-              src={device.img}
+              src={process.env.REACT_APP_API_URL + '/' + device.img}
             />
             <Grid container>
               <CardContent>
@@ -95,7 +90,7 @@ const DevicePage = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {description.map((row) => (
+                {device.info.map((row) => (
                   <StyledTableRow key={row.id}>
                     <StyledTableCell component="th" scope="row">
                       {row.name}
@@ -114,6 +109,6 @@ const DevicePage = () => {
 
 
   );
-};
+});
 
 export default DevicePage;

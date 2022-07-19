@@ -1,4 +1,5 @@
 import {$authHost, $host} from "./index";
+import jwt_decode from "jwt-decode";
 
 export const createDevices = async (device) => {
   const {data} = await $authHost.post('api/device', device)

@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {Context} from "../index";
 
-import {AppBar, Box, Button, Container, IconButton, Toolbar, Typography,} from "@mui/material";
+import {AppBar, Box, Button, Container, CssBaseline, IconButton, Toolbar, Typography,} from "@mui/material";
 import {NavLink} from "react-router-dom";
 import {ADMIN_ROUTE, LOGIN_ROUTE, SHOP_ROUTE} from "../utils/constants";
 import "./styles.scss";
@@ -19,6 +19,8 @@ const NavBar = observer(() => {
 
   return (
     <Box sx={{flexGrow: 1}}>
+      <CssBaseline/>
+
       <AppBar position="static">
         <Container>
           <Toolbar>

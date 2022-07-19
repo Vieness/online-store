@@ -20,7 +20,6 @@ const Shop = observer(() => {
 
   return (
     <Container>
-      <CssBaseline/>
       <Grid sx={{mt: 3, mb: 2}} container spacing={2}>
         <Grid item xs={4}>
           <TypeBar/>

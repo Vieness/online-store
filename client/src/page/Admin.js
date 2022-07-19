@@ -9,8 +9,9 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
+import {observer} from "mobx-react-lite";
 
-const Admin = () => {
+const Admin = observer(() => {
   const [addProduct, setAddProduct] = useState(true)
   const [addType, setAddType] = useState(false)
   const [addBrand, setAddBrand] = useState(false)
@@ -66,12 +67,12 @@ const Admin = () => {
 
         <Grid item xs={8}>
           <Grid> {addProduct && <AdminListProduct/>}</Grid>
-          <Grid sx={{mt: 2}}> {addBrand && <AdminListBrand/>}</Grid>
-          <Grid sx={{mt: 2}}> {addType && <AdminListType/>}</Grid>
+          <Grid sx={{mt: 2}}> {addBrand && <AdminListBrand />}</Grid>
+          <Grid sx={{mt: 2}}> {addType && <AdminListType />}</Grid>
         </Grid>
       </Grid>
     </Container>
   );
-};
+});
 
 export default Admin;

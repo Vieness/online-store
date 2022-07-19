@@ -13,8 +13,9 @@ import {
 import {Context} from "../../index";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
+import {observer} from "mobx-react-lite";
 
-const AdminListProduct = () => {
+const AdminListProduct = observer(() => {
   const {device} = useContext(Context)
   const [type, setType] = useState('');
   const [brand, setBrand] = useState('');
@@ -107,7 +108,7 @@ const AdminListProduct = () => {
               <TextField sx={{mt: 1, mr: 1}} id="outlined-basic" label="Name Property" variant="outlined"/>
               <TextField sx={{mt: 1, mr: 1}} id="outlined-basic" label="Description" variant="outlined"/>
               <Button
-                onClick={()=>removeInfo(info.number)}
+                onClick={() => removeInfo(info.number)}
                 sx={{mt: 1, mr: 1}}
                 variant={"outlined"}
                 color={'error'}
@@ -125,6 +126,6 @@ const AdminListProduct = () => {
       </Grid>
     </Container>
   );
-};
+});
 
 export default AdminListProduct;
