@@ -66,9 +66,9 @@ const Admin = observer(() => {
         </Grid>
 
         <Grid item xs={8}>
-          <Grid> {addProduct && <AdminListProduct/>}</Grid>
-          <Grid sx={{mt: 2}}> {addBrand && <AdminListBrand />}</Grid>
-          <Grid sx={{mt: 2}}> {addType && <AdminListType />}</Grid>
+          <Grid> {addProduct && <AdminListProduct onHide={setAddProduct}/>}</Grid>
+          <Grid sx={{mt: 2}}> {addBrand && <AdminListBrand onHide={setAddBrand}/>}</Grid>
+          <Grid sx={{mt: 2}}> {addType && <AdminListType onHide={setAddType}/>}</Grid>
         </Grid>
       </Grid>
     </Container>

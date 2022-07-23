@@ -5,7 +5,6 @@ import {observer} from "mobx-react-lite";
 
 const AdminListType = observer(({addType}) => {
   const [value, setValue] = useState('')
-  console.log(value);
   const fetchAddType = () => {
     createType({name: value}).then(data => setValue(''))
   }

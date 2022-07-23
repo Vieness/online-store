@@ -14,27 +14,52 @@ import {Context} from "../../index";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import {observer} from "mobx-react-lite";
+import {useEffect} from "react";
+import {fetchTypes} from "../../http/typeAPI";
+import {fetchBrand} from "../../http/brandAPI";
+import {createDevices, fetchDevices} from "../../http/deviceAPI";
 
-const AdminListProduct = observer(() => {
+const AdminListProduct = observer(({onHide}) => {
   const {device} = useContext(Context)
-  const [type, setType] = useState('');
-  const [brand, setBrand] = useState('');
   const [info, setInfo] = useState([])
+  const [name, setName] = useState('')
+  const [price, setPrice] = useState(0)
+  const [file, setFile] = useState(null)
 
-  const handleChangeType = (event) => {
-    setType(event.target.value);
+  useEffect(() => {
+    fetchTypes().then(data => device.setTypes(data))
+    fetchBrand().then(data => device.setBrands(data))
+  }, [])
 
-  };
-
-  const handleChangeBrand = (event) => {
-    setBrand(event.target.value);
-
-  };
   const addInfo = () => {
-    setInfo([...info, {title: '', desc: '', number: Date.now()}])
+    setInfo([...info, {title: '', description: '', number: Date.now()}])
   }
+
   const removeInfo = (number) => {
     setInfo(info.filter(i => i.number !== number))
+  }
+
+  const selectFile = e => {
+
+    setFile(e.target.files[0])
+  }
+
+  const changeInfo = (key, value, number) => {
+    setInfo(info.map(i => i.number === number ? {...i, [key]: value} : i))
+  }
+
+  const addDevice = () => {
+    const formData = new FormData()
+    formData.append('name', name)
+    formData.append('price', `${price}`)
+    formData.append('img', file)
+    formData.append('brandId', device.selectedType.id)
+    formData.append('typeId', device.selectedType.id)
+    formData.append('info', JSON.stringify(info))
+
+
+    createDevices(formData).then(data=> onHide())
+    console.log(formData)
   }
 
   return (
@@ -46,15 +71,20 @@ const AdminListProduct = observer(() => {
             <Select
               labelId="demo-simple-select-required-label"
               id="demo-simple-select-required"
-              value={type}
+              value={device.type}
               label="Type *"
-              onChange={handleChangeType}
             >
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
               {device.types.map(type =>
-                <MenuItem key={type.id} value={type.name}>{type.name}</MenuItem>
+                <MenuItem
+                  key={type.id}
+                  value={type.name}
+                  onClick={() => device.setSelectedType(type)}
+                >
+                  {type.name}
+                </MenuItem>
               )}
             </Select>
             <FormHelperText>Required</FormHelperText>
@@ -64,15 +94,21 @@ const AdminListProduct = observer(() => {
             <Select
               labelId="demo-simple-select-required-label"
               id="demo-simple-select-required"
-              value={brand}
+              value={device.brand}
               label="Brand *"
-              onChange={handleChangeBrand}
             >
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
               {device.brands.map(brand =>
-                <MenuItem key={brand.id} value={brand.name}>{brand.name}</MenuItem>
+                <MenuItem
+                  key={brand.id}
+                  value={brand.name}
+                  onClick={() => device.setSelectedBrand(brand)}
+
+                >
+                  {brand.name}
+                </MenuItem>
               )}
             </Select>
             <FormHelperText>Required</FormHelperText>
@@ -81,8 +117,22 @@ const AdminListProduct = observer(() => {
         <Box
           sx={{mt: 1, mb: 2}}
         >
-          <TextField sx={{mt: 1, mr: 1}} id="outlined-basic" label="Name product" variant="outlined"/>
-          <TextField sx={{mt: 1, mr: 1}} id="outlined-basic" label="Price" variant="outlined"/>
+          <TextField
+            sx={{mt: 1, mr: 1}}
+            id="outlined-basic"
+            label="Name product"
+            variant="outlined"
+            value={name}
+            onChange={e => setName(e.target.value)}
+          />
+          <TextField
+            sx={{mt: 1, mr: 1}}
+            id="outlined-basic"
+            label="Price"
+            variant="outlined"
+            value={price}
+            onChange={e => setPrice(Number(e.target.value))}
+          />
           <Button
             sx={{mt: 1}}
             variant="contained"
@@ -92,6 +142,7 @@ const AdminListProduct = observer(() => {
             <input
               type="file"
               hidden
+              onChange={selectFile}
             />
           </Button>
         </Box>
@@ -105,8 +156,22 @@ const AdminListProduct = observer(() => {
           </Button>
           {info.map(info =>
             <Box key={info.number}>
-              <TextField sx={{mt: 1, mr: 1}} id="outlined-basic" label="Name Property" variant="outlined"/>
-              <TextField sx={{mt: 1, mr: 1}} id="outlined-basic" label="Description" variant="outlined"/>
+              <TextField
+                sx={{mt: 1, mr: 1}}
+                id="outlined-basic"
+                label="Name Property"
+                variant="outlined"
+                value={info.title}
+                onChange={(e) => changeInfo('title', e.target.value, info.number)}
+              />
+              <TextField
+                sx={{mt: 1, mr: 1}}
+                id="outlined-basic"
+                label="Description"
+                variant="outlined"
+                value={info.description}
+                onChange={(e) => changeInfo('description', e.target.value, info.number)}
+              />
               <Button
                 onClick={() => removeInfo(info.number)}
                 sx={{mt: 1, mr: 1}}
@@ -120,7 +185,7 @@ const AdminListProduct = observer(() => {
         </Box>
         <Divider/>
         <Box sx={{mt: 2}}>
-          <Button sx={{mr: 7}} color="success" variant="outlined">Add</Button>
+          <Button onClick={addDevice} sx={{mr: 7}} color="success" variant="outlined">Add</Button>
           <Button color="error" variant="outlined">Cancel</Button>
         </Box>
       </Grid>

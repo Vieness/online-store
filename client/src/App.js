@@ -14,12 +14,12 @@ const App = observer(() => {
   useEffect(() => {
     check().then(data => {
       user.setUser(true)
-      user.isAuth(true)
-    }).finally(()=>setLoading(false))
+      user.setIsAuth(true)
+    }).finally(() => setLoading(false))
   }, [])
 
-  if(loading){
-    return <CircularProgress />
+  if (loading) {
+    return <CircularProgress/>
   }
 
   return (
