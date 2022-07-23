@@ -1,13 +1,6 @@
 import Admin from "./page/Admin";
 import Basket from "./page/Basket";
-import {
-  ADMIN_ROUTE,
-  BASKET_ROUTE,
-  DEVICE_ROUTE,
-  LOGIN_ROUTE,
-  REGISTRATION_ROUTE,
-  SHOP_ROUTE,
-} from "./utils/constants";
+import {ADMIN_ROUTE, BASKET_ROUTE, DEVICE_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE,} from "./utils/constants";
 import Shop from "./page/Shop";
 import Auth from "./page/Auth";
 import DevicePage from "./page/DevicePage";

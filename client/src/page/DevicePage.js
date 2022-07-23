@@ -22,10 +22,9 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {useParams} from "react-router-dom";
 import {fetchOneDevices} from "../http/deviceAPI";
 import {observer} from "mobx-react-lite";
-import Box from "@mui/material/Box";
 import {Context} from "../index";
 
-const DevicePage = () => {
+const DevicePage = observer(() => {
   const {device} = useContext(Context)
   const [deviceInfo, setDeviceInfo] = useState({info: []})
   const {id} = useParams()
@@ -45,8 +44,8 @@ const DevicePage = () => {
 
   const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
+      backgroundColor: theme.palette.common.white,
+      color: theme.palette.common.black,
     },
     [`&.${tableCellClasses.body}`]: {
       fontSize: 14,
@@ -89,7 +88,6 @@ const DevicePage = () => {
               <TableHead>
                 <TableRow>
                   <StyledTableCell>Descriptions</StyledTableCell>
-                  <StyledTableCell align="right">id</StyledTableCell>
                   <StyledTableCell align="right">title</StyledTableCell>
                   <StyledTableCell align="right">detail</StyledTableCell>
                 </TableRow>
@@ -100,7 +98,6 @@ const DevicePage = () => {
                     <StyledTableCell component="th" scope="row">
                       {row.name}
                     </StyledTableCell>
-                    <StyledTableCell align="right">{row.id}</StyledTableCell>
                     <StyledTableCell align="right">{row.title}</StyledTableCell>
                     <StyledTableCell align="right">{row.description}</StyledTableCell>
                   </StyledTableRow>
@@ -112,6 +109,6 @@ const DevicePage = () => {
       </Grid>
     </Container>
   );
-};
+});
 
 export default DevicePage;

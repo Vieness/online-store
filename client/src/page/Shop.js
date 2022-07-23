@@ -1,5 +1,5 @@
 import React, {useContext, useEffect} from 'react';
-import {Container, CssBaseline, Grid} from "@mui/material";
+import {Container, Grid} from "@mui/material";
 import TypeBar from "../components/TypeBar";
 import BrandBar from "../components/BrandBar";
 import DeviceList from "../components/DeviceList";
@@ -8,6 +8,7 @@ import {Context} from "../index";
 import {fetchBrand} from "../http/brandAPI";
 import {fetchTypes} from "../http/typeAPI";
 import {fetchDevices} from "../http/deviceAPI";
+import PaginationCompon from "../components/PaginationCompon";
 
 const Shop = observer(() => {
   const {device} = useContext(Context)
@@ -15,8 +16,18 @@ const Shop = observer(() => {
   useEffect(() => {
     fetchTypes().then(data => device.setTypes(data))
     fetchBrand().then(data => device.setBrands(data))
-    fetchDevices().then(data => device.setDevices(data.rows))
+    fetchDevices(null, null, 1, 3).then(data => {
+      device.setDevices(data.rows)
+      device.setTotalCount(data.count)
+    })
   }, [])
+
+  useEffect(() => {
+    fetchDevices(device.selectedType.id, device.selectedBrand.id, device.page, 3).then(data => {
+      device.setDevices(data.rows)
+      device.setTotalCount(data.count)
+    })
+  }, [device.page, device.selectedType, device.selectedBrand,])
 
   return (
     <Container>
@@ -27,6 +38,7 @@ const Shop = observer(() => {
         <Grid item xs={8}>
           <BrandBar/>
           <DeviceList/>
+          <PaginationCompon/>
         </Grid>
       </Grid>
     </Container>

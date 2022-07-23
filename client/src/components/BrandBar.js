@@ -5,18 +5,18 @@ import {Breadcrumbs, Link} from "@mui/material";
 
 const BrandBar = observer(() => {
   const {device} = useContext(Context)
-  const handleClick = (e) => {
-    e.preventDefault()
-  }
+
   return (
     <Breadcrumbs aria-label="breadcrumb">
       {device.brands.map(brand =>
         <Link
-          onClick={handleClick}
+          onClick={() => device.setSelectedBrand(brand)}
           key={brand.id}
           underline="hover"
-          color="inherit"
-          href="/">
+          color="black"
+          underline={'none'}
+          component="button"
+          >
           {brand.name}
         </Link>
       )}

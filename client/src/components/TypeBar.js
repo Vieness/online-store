@@ -12,6 +12,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const TypeBar = observer(() => {
   const {device} = useContext(Context)
+
   return (
     <Box sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
       <nav aria-label="main mailbox folders">
